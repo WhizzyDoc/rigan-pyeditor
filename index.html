@@ -1,1 +1,194 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rigan PyEditor Manual</title>
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./static/css/sweetalert.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.css" />
+    <link rel="stylesheet" href="./static/css/rigan.css" />
+    <link rel="stylesheet" href="./static/css/nav.css" />
+    <script src="./static/js/jquery.min.js"></script>
+    <script src="./static/js/bootstrap.min.js"></script>
+    <script src="./static/js/sweetalert.min.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="./static/js/swif.js"></script>
+
+    <template id="404">
+        <?include: "templates/_parts/404.html"?><?end?>
+    </template>
+    <template id="header">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+            <!-- Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="./static/image/logo.png" alt="" width="30px" height="30px">
+                Rigan PyEditor
+            </a>
+          
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link home-act" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link about-act" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link act-act" href="#activation">Activation Key</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link con-act" href="#contact">Contact Us</a>
+                  </li>
+              </ul>
+            </div>
+        </nav>
+    </template>
+    <!-- Home -->
+    <template id="home">
+        <?use-template: "header"?>
+        <div class="landing"></div>
+        <div class="content">
+            <h4>WELCOME TO</h4>
+            <h2>&lt;&gt;Rigan PyEditor&lt;/&gt;</h2>
+            <p>Everything you need in a code editor...</p>
+            <div class="w-flex w-flex-center w-align-center">
+                <a href="#activation">
+                    <button class="w-margin btn btn-success btn-lg">Buy An Activation Key</button>
+                </a>
+                <a href="#about">
+                    <button class="w-margin btn btn-primary btn-lg">Learn More</button>
+                </a>
+            </div>
+        </div>
+        <script>
+            $('.home-act').addClass('active')
+        </script>
+    </template>
+
+    <template id="about">
+        <?use-template: "header"?>
+        <script>
+            $('.about-act').addClass('active')
+        </script>
+    </template>
+
+    <template id="activation">
+        <?use-template: "header"?>
+        <form class="email-con w-card cent">
+            <div class="form-group">
+                <label for="cemail">Kindly enter your email below. This email will be used to receive your activation key once payment is confirmed.</label>
+                <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn buy-btn btn-success btn-block w-padding">Buy Activation Key</button>
+            </div>
+        </form>
+        <div class="pay-con w-card cent">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td><b>Payer's Email</b></td>
+                        <td id="p_email"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Amount</b></td>
+                        <td id="p_amt"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Description</b></td>
+                        <td>PyEditor Activation Key</td>
+                    </tr>
+                    <tr>
+                        <td><b>Payment Reference</b></td>
+                        <td id="p_ref"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form>
+                <input type="hidden" id="pk" value="">
+                <input type="hidden" id="ref_id" value="">
+                <input type="hidden" id="pay_amt" value="">
+                <input type="hidden" id="pay_email" value="">
+            </form>
+            <div class="form-group">
+                <button class="btn pay-btn btn-success btn-block w-padding" onclick="payWithPaystack()">Proceed with Payment</button>
+            </div>
+        </div>
+        <script src="./static/js/script.js"></script>
+        <script>
+            $('.act-act').addClass('active')
+            $('.email-con').submit(function(e) {
+                e.preventDefault()
+                var email = $('#email').val()
+                var btn = $('.buy-btn')
+                buy_key(email, btn)
+            })
+        </script>
+    </template>
+
+
+    <template id="contact">
+        <?use-template: "header"?>
+        <form class="contact-con w-card cent">
+            <h4>Send Us A Message</h4>
+            <div class="form-group">
+                <label for="cemail">Email:</label>
+                <input type="email" class="form-control" id="cemail" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" class="form-control" id="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea class="form-control" id="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-block w-padding">Send Message</button>
+            </div>
+        </form>
+        <script>
+            $('.con-act').addClass('active')
+        </script>
+    </template>
+    <!-- Routes -->
+    <!-- homepage -->
+    <template route="/">
+    <?use-template: "home"?>
+    </template>
+    <template route="/about">
+        <?use-template: "about"?>
+    </template>
+    <template route="/activation">
+        <?use-template: "activation"?>
+    </template>
+    <template route="/contact">
+        <?use-template: "contact"?>
+    </template>
+    <script>
+        var on = XJSX.event.on,
+        emit = XJSX.event.emit;
+        emit("hashchange");
+    </script>
+</head>
+<body>
+    <?on: "hashchange"?>
+
+    <?eval:
+    "var hash=location.hash
+    hash=hash.replace(/^\/?#\/?|^/img,'/')
+    var page=document.querySelector(`template[route='${hash}']`)||'404';"?>
+
+    <?use-template: page?>
+    <?end?>
+
+    
+</body>
+</html>
